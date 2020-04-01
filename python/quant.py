@@ -11,7 +11,7 @@ import unittest
 HTTP_200_OK = 200
 
 
-def get_symbols(code='005930.KS', start='2000-01-01', end=None):
+def get_symbols(code='005930.KS', start='2000-01-01', end=None, save_as=None):
     """
     start: yyyy-MM-dd
     end: yyyy-MM-dd
@@ -62,6 +62,11 @@ def get_symbols(code='005930.KS', start='2000-01-01', end=None):
     except requests.exceptions.InvalidURL as e:
         sys.stderr.write('requests.exceptions.InvalidURL: {0}\n'.format(e))
         return None
+
+    if save_as is not None and type(save_as) is str:
+        fhandle = open(save_as, 'w')
+        fhandle.write(result.content.decode("utf-8"))
+        fhandle.close()
 
     data = list(map(lambda x: x.split(','), result.content.decode("utf-8").split('\n')))
 
