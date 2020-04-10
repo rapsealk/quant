@@ -10,10 +10,18 @@ import pandas as pd
 from datetime import datetime
 from io import StringIO
 
+import pandas as pd
+
 import unittest
 
 
 HTTP_200_OK = 200
+
+
+def get_corporations():
+    df_corps = pd.read_html('http://kind.krx.co.kr/corpgeneral/corpList.do?method=download', header=0)[0]
+    print(df_corps.head())
+    return df_corps
 
 
 def get_symbols(code='005930.KS', start='2000-01-01', end=None, save_as=None):
