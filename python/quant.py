@@ -1,9 +1,14 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+"""
+Python porting of R package: quantmod (https://github.com/joshuaulrich/quantmod)
+"""
 import requests
 import sys
 import time
+import pandas as pd
 from datetime import datetime
+from io import StringIO
 
 import unittest
 
@@ -68,7 +73,8 @@ def get_symbols(code='005930.KS', start='2000-01-01', end=None, save_as=None):
         fhandle.write(result.content.decode("utf-8"))
         fhandle.close()
 
-    data = list(map(lambda x: x.split(','), result.content.decode("utf-8").split('\n')))
+    # data = list(map(lambda x: x.split(','), result.content.decode("utf-8").split('\n')))
+    data = pd.read_csv(StringIO(result.content.decode("utf-8")))
 
     return data
 
