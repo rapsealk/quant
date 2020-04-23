@@ -42,8 +42,8 @@ def calculate_return(prices, method=['discrete', 'log', 'difference']):
         for prices in zip(kospi_close_prices[:-1], kospi_close_prices[1:])
     ]
 
-    return_i = pd.DataFrame({"Date": dates[1:], "Close": return_i})
-    return_m = pd.DataFrame({"Date": dates[1:], "Close": return_m})
+    return_i = pd.DataFrame({"Date": dates[1:], "Rate": return_i})
+    return_m = pd.DataFrame({"Date": dates[1:], "Rate": return_m})
 
     return (return_i, return_m)
 

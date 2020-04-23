@@ -12,6 +12,8 @@ import unittest
 
 import pandas as pd
 
+__author__ = "rapsealk"
+__version__ = "0.1.0"
 
 HTTP_200_OK = 200
 
@@ -22,7 +24,7 @@ def get_corporations():
     return df_corps
 
 
-def get_symbols(code='005930.KS', start='2000-01-01', end=None, save_as=None):
+def get_symbols(code='^KS11', start='2000-01-01', end=None, save_as=None):
     """
     start: yyyy-MM-dd
     end: yyyy-MM-dd
@@ -79,7 +81,7 @@ def get_symbols(code='005930.KS', start='2000-01-01', end=None, save_as=None):
         fhandle.close()
 
     # data = list(map(lambda x: x.split(','), result.content.decode("utf-8").split('\n')))
-    data = pd.read_csv(StringIO(response))
+    data = pd.read_csv(StringIO(response)).dropna(axis=0, how='any')
 
     return data
 
