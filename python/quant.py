@@ -3,16 +3,14 @@
 """
 Python porting of R package: quantmod (https://github.com/joshuaulrich/quantmod)
 """
-import requests
 import sys
 import time
-import pandas as pd
 from datetime import datetime
 from io import StringIO
+import urllib
+import unittest
 
 import pandas as pd
-
-import unittest
 
 
 HTTP_200_OK = 200
@@ -66,23 +64,22 @@ def get_symbols(code='005930.KS', start='2000-01-01', end=None, save_as=None):
         os.remove(filename)
     """
     try:
-        result = requests.get(download_url)
-        if result.status_code != HTTP_200_OK:
-            sys.stderr.write('HTTP Status Code: {0} ({1})'.format(result.status_code, download_url))
-    except requests.exceptions.MissingSchema as e:
-        sys.stderr.write('requests.exceptions.MissingSchema: {0}\n'.format(e))
+        response = urllib.request.urlopen(download_url).read().decode("utf-8")
+    except urllib.error.URLError as e:
+        sys.stderr.write('urllib.error.UrlError: {0}\n'.format(e))
         return None
-    except requests.exceptions.InvalidURL as e:
-        sys.stderr.write('requests.exceptions.InvalidURL: {0}\n'.format(e))
-        return None
+    except urllib.error.HTTPError as e:
+        sys.stderr.write('urllib.error.HTTPError: {0}\n'.format(e))
+    except urllib.error.ContentTooShortError as e:
+        sys.stderr.write('urllib.error.ContentTooShortError: {0}\n'.format(e))
 
     if save_as is not None and type(save_as) is str:
         fhandle = open(save_as, 'w')
-        fhandle.write(result.content.decode("utf-8"))
+        fhandle.write(response)
         fhandle.close()
 
     # data = list(map(lambda x: x.split(','), result.content.decode("utf-8").split('\n')))
-    data = pd.read_csv(StringIO(result.content.decode("utf-8")))
+    data = pd.read_csv(StringIO(response))
 
     return data
 
@@ -113,11 +110,4 @@ class QuantTest(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    """
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--abc', action='store_true', default=False)
-    args = parser.parse_args()
-
-    if args.abc:
-    """
     unittest.main()
