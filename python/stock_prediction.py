@@ -1,7 +1,6 @@
 #!/usr/local/bin/python3
 # -*- coding: utf-8 -*-
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
@@ -14,7 +13,7 @@ from quant import get_symbols
 # Load Dataset
 filename = '009530.KS.csv'
 data = get_symbols('005930.KS', start='2015-01-01', save_as=filename)
-data = pd.read_csv(filename).dropna(axis=0, how='any')
+# data = pd.read_csv(filename).dropna(axis=0, how='any')
 print(data.head())
 
 # Compute Mid Price
