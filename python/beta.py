@@ -16,12 +16,10 @@ def linear_regression(data, y_var, x_vars):
 
 
 def main():
-    # tiger200etf = get_symbols('102110.KS')  # .dropna(axis=0, how='any')
-    kiwoom = get_symbols('039490.KS', start='2018-01-01', end='2019-12-31')
-    print(kiwoom.head())
-    print(kiwoom)
+    tiger200etf = '102110.KS'
+    kiwoom = get_symbols('039490.KS', start='2016-01-01', end='2018-12-31')
 
-    ri, rm = calculate_return(kiwoom)
+    ri, rm = calculate_return(kiwoom, tiger200etf)
     print(ri)
     print(rm)
 

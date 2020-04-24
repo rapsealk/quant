@@ -10,10 +10,10 @@ import pandas as pd
 from quant import get_symbols
 
 __author__ = "rapsealk"
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 
-def calculate_return(prices, method=['discrete', 'log', 'difference']):
+def calculate_return(item, market_code='^KS11', method=['discrete', 'log', 'difference']):
     """
     Calculate returns from a prices stream
     ---
@@ -27,19 +27,20 @@ def calculate_return(prices, method=['discrete', 'log', 'difference']):
     # if method == 'discrete':
     #     returns = prices
 
-    close_prices = prices["Close"]
+    dates = item["Date"].tolist()
+    market = get_symbols(code=market_code, start=dates[0], end=dates[-1])
 
-    dates = prices["Date"].tolist()
-    kospi_close_prices = get_symbols(start=dates[0], end=dates[-1])["Close"]
+    item = item.loc[item["Date"].isin(market["Date"])]
+    dates = item["Date"].tolist()
 
     return_i = [
         (prices[1] - prices[0]) / prices[0] * 100
-        for prices in zip(close_prices[:-1], close_prices[1:])
+        for prices in zip(item["Close"][:-1], item["Close"][1:])
     ]
 
     return_m = [
         (prices[1] - prices[0]) / prices[0] * 100
-        for prices in zip(kospi_close_prices[:-1], kospi_close_prices[1:])
+        for prices in zip(market["Close"][:-1], market["Close"][1:])
     ]
 
     return_i = pd.DataFrame({"Date": dates[1:], "Rate": return_i})
