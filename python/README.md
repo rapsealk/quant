@@ -1,5 +1,5 @@
 # Quant Python
-![Python 3.6](https://img.shields.io/badge/language-Python%203.6-blue.svg)
+![Python 3.6](https://img.shields.io/badge/Python-3.6-blue.svg)
 
 * [파이썬으로 배우는 알고리즘 트레이딩](https://wikidocs.net/6656)
 

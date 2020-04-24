@@ -1,5 +1,5 @@
 # Quant Python
-![R](https://img.shields.io/badge/R-yellow.svg)
+![R 4.0.0](https://img.shields.io/badge/R-4.0.0-blue.svg)
 
 ## R Libraries
 - **[quantmod](https://cran.r-project.org/web/packages/quantmod/)**: 이름에서 알 수 있듯이 퀀트 투자에 매우 유용한 패키지입니다. API를 이용해 데이터를 다운로드하는 `getSymbols()` 함수는 대단히 많이 사용됩니다. 이 외에도 볼린저밴드, 이동평균선, 상대강도지수(RSI) 등 여러 기술적 지표를 주가 차트에 나타낼 수도 있습니다.
