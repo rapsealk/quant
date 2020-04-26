@@ -1,3 +1,4 @@
+#!/usr/local/bin/Rscript
 pkg = c('magrittr', 'quantmod', 'rvest', 'httr', 'jsonlite',
         'readr', 'readxl', 'stringr', 'lubridate', 'dplyr',
         'tidyr', 'ggplot2', 'corrplot', 'dygraphs',

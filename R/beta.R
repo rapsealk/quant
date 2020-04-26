@@ -1,3 +1,4 @@
+#!/usr/local/bin/Rscript
 pkg = c('magrittr', 'quantmod', 'PerformanceAnalytics')
 
 new.pkg = pkg[!(pkg %in% installed.packages()[, "Package"])]

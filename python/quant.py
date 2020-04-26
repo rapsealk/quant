@@ -7,7 +7,7 @@ import sys
 import time
 from datetime import datetime
 from io import StringIO
-import urllib
+import urllib.request
 import unittest
 
 import pandas as pd
@@ -26,6 +26,7 @@ def get_corporations():
 
 def get_symbols(code='^KS11', start='2000-01-01', end=None, save_as=None):
     """
+    YAHOO FINANCE provides ONLY KOSPI data.
     start: yyyy-MM-dd
     end: yyyy-MM-dd
     ---
@@ -67,8 +68,11 @@ def get_symbols(code='^KS11', start='2000-01-01', end=None, save_as=None):
     """
     try:
         response = urllib.request.urlopen(download_url).read().decode("utf-8")
+    except ValueError as e:
+        sys.stderr.write('ValueError: {0}\n'.format(e))
+        return None
     except urllib.error.URLError as e:
-        sys.stderr.write('urllib.error.UrlError: {0}\n'.format(e))
+        sys.stderr.write('urllib.error.UrlError: {0} ({1})\n'.format(e, download_url))
         return None
     except urllib.error.HTTPError as e:
         sys.stderr.write('urllib.error.HTTPError: {0}\n'.format(e))
