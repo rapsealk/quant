@@ -79,6 +79,8 @@ def get_symbols(code='^KS11', start='2000-01-01', end=None, save_as=None):
     except urllib.error.ContentTooShortError as e:
         sys.stderr.write('urllib.error.ContentTooShortError: {0}\n'.format(e))
 
+    sys.stdout.write('quant.get_symbols: Succeed to read url ({0})\n'.format(download_url))
+
     if save_as is not None and type(save_as) is str:
         fhandle = open(save_as, 'w')
         fhandle.write(response)

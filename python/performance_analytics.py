@@ -18,8 +18,8 @@ def calculate_return(item, market_code='^KS11', method=['discrete', 'log', 'diff
     Calculate returns from a prices stream
     ---
     prices: pandas.dataframe containing ordered price observations.
-    Rm: rate of return of the market
     Ri: rate of return of the item
+    Rm: rate of return of the market
     """
     if type(method) is list:
         method = method[0]

@@ -3,7 +3,6 @@
 import sys
 import urllib.request
 
-import requests
 from bs4 import BeautifulSoup
 
 URL = "https://finance.naver.com/item/main.nhn?code="
@@ -12,6 +11,7 @@ stock_code = "005930"
 
 def get_kospi200():
     url = "https://finance.naver.com/sise/entryJongmok.nhn?&page="  # page 1~20
+    kospi200 = []
     for i in range(20):
         response = None
         try:
@@ -30,8 +30,6 @@ def get_kospi200():
             sys.stderr.write('urllib.error.ContentTooShortError: {0}\n'.format(e))
             continue
 
-        kospi200 = []
-
         if response:
             soup = BeautifulSoup(response, "html.parser")
             corporations = soup.find_all("td", {"class": "ctg"})
@@ -42,15 +40,12 @@ def get_kospi200():
                     "code": anchor["href"].split('=')[-1]
                 })
 
-        return kospi200
+    return kospi200
 
 
 def get_current_price(stock_code):
-    result = requests.get(URL + stock_code)
-    soup = BeautifulSoup(result.content, "html.parser")
+    result = urllib.request.urlopen(URL + stock_code).read()
+    soup = BeautifulSoup(result, "html.parser")
     no_today = soup.find("p", {"class": "no_today"})
     now_price = no_today.find("span", {"class": "blind"})
     return now_price.text
-
-
-print(get_current_price(stock_code))
