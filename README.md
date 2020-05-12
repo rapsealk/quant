@@ -1,5 +1,5 @@
 # Quant
-![Python 3.6](https://img.shields.io/badge/Python-3.6-blue.svg)![R](https://img.shields.io/badge/R-yellow.svg)
+![Python 3.6](https://img.shields.io/badge/Python-3.6-blue.svg)![R 4.0.0](https://img.shields.io/badge/R-4.0.0-yellow.svg)
 
 * [R을 이용한 퀀트 투자 포트폴리오 만들기](https://hyunyulhenry.github.io/quant_cookbook/)
 

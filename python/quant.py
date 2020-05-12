@@ -20,7 +20,6 @@ HTTP_200_OK = 200
 
 def get_corporations():
     df_corps = pd.read_html('http://kind.krx.co.kr/corpgeneral/corpList.do?method=download', header=0)[0]
-    print(df_corps.head())
     return df_corps
 
 
@@ -110,11 +109,53 @@ def _get_local_timestamp(date_str='2000-01-01'):
     return time.mktime(time.strptime(date_str, '%Y-%m-%d')) + offset_in_seconds
 
 
+def calculate_return(item, market_code='^KS11', method=['discrete', 'log', 'difference']):
+    """
+    Calculate returns from a prices stream
+    ---
+    prices: pandas.dataframe containing ordered price observations.
+    Ri: rate of return of the item
+    Rm: rate of return of the market
+    """
+    if type(method) is list:
+        method = method[0]
+
+    # if method == 'discrete':
+    #     returns = prices
+
+    dates = item["Date"].tolist()
+    market = get_symbols(code=market_code, start=dates[0], end=dates[-1])
+
+    item = item.loc[item["Date"].isin(market["Date"])]
+    market = market.loc[market["Date"].isin(item["Date"])]
+    dates = item["Date"].tolist()
+
+    return_i = [
+        (prices[1] - prices[0]) / prices[0] * 100
+        for prices in zip(item["Close"][:-1], item["Close"][1:])
+    ]
+
+    return_m = [
+        (prices[1] - prices[0]) / prices[0] * 100
+        for prices in zip(market["Close"][:-1], market["Close"][1:])
+    ]
+
+    return_i = pd.DataFrame({"Date": dates[1:], "Rate": return_i})
+    return_m = pd.DataFrame({"Date": dates[1:], "Rate": return_m})
+
+    return (return_i, return_m)
+
+
 class QuantTest(unittest.TestCase):
 
     def test_local_timestamp(self):
         timestamp = _get_local_timestamp('2019-03-26')
         self.assertEqual(timestamp, 1553558400)
+
+    def test_calculate_return(self):
+        samsung_electronics = get_symbols(code='005930.KS', start='2019-01-01', end='2019-12-31')
+        ri, rm = calculate_return(samsung_electronics)
+        self.assertTrue(len(ri) == len(rm))
 
 
 if __name__ == "__main__":
