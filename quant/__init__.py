@@ -10,6 +10,8 @@ from io import StringIO
 import numpy as np
 import pandas as pd
 
+from quant import providers
+
 
 def get_symbols(code='^KS11', start='2000-01-01', end=None, save_as=None):
     """

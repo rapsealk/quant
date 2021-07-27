@@ -1,9 +1,9 @@
 import unittest
 
-from quant.util import get_symbols, get_local_timestamp, calculate_return
+from quant import get_symbols, get_local_timestamp, calculate_return
 
 
-class QuantUtilTest(unittest.TestCase):
+class QuantTest(unittest.TestCase):
 
     def test_local_timestamp(self):
         timestamp = get_local_timestamp('2019-03-26')
